@@ -1,0 +1,227 @@
+=== STEP 1: corpus === 
+Corpus: 1000 posts, 2021-12-14 to 2026-10-01. Own posts: 955; collab posts owned by other accounts: 45. 
+WARNING: exactly 1000 rows -> consistent with a scraper cap; earlier history is missing. 
+
+=== STEP 2: classification === 
+Primary label counts under each codebook version / sensitivity setting: 
+                   A  B  C   D U
+v1.0 (frozen)    202 60 38 692 8
+v1.1 (headline)  195 50 27 720 8
+v1.1 threshold=1 275 81 68 568 8
+v1.1 threshold=3 140 35 12 805 8
+v1.0 vs v1.1 agreement on primary label: 969 of 1000 posts (96.9%) 
+v1.1 D sub-codes: 
+
+ D1  D2  D3  D4  D5  D6 
+ 75  51  64  55  77 398 
+v1.1 A/B/C sub-codes: 
+
+ A1  A2  A3  B1  B2  B3  C1  C2  C3 
+ 88 103   4   6  29  15   5   6  16 
+Rules that decided v1.1 labels: 
+
+R3-residual        R5.1        R5.3          R6           U         max 
+        690           2           5          30           8         265 
+
+=== STEP 3: validation sample written: 30 random posts (blind). The automated labels hold A=5, B=1, C=2, D=22. 
+
+=== STEP 4: latent structure === 
+Detected caption language: 
+
+     de      en      id   mixed unknown 
+     45     177     600     120      58 
+TF-IDF matrix: 996 posts x 1777 terms (terms kept if in >=5 posts and <=50% of posts); 4 posts with no retained term are left unclustered. 
+k selection (k-means silhouette, k-means within-SS, Ward silhouette): 
+    k kmeans_silhouette kmeans_wss ward_silhouette
+1   2            0.0883      858.6          0.0883
+2   3            0.0898      848.7          0.0938
+3   4            0.0963      837.6          0.0999
+4   5            0.0985      830.3          0.0708
+5   6            0.0996      823.8          0.0711
+6   7            0.1065      813.7          0.0780
+7   8            0.1110      807.5          0.0933
+8   9            0.1121      800.6          0.0957
+9  10            0.1106      797.4          0.1167
+10 11            0.1196      786.7          0.1190
+11 12            0.1211      782.3          0.1236
+12 13            0.1208      776.4          0.1237
+13 14            0.1266      771.3          0.1439
+14 15            0.1292      764.8          0.1465
+Chosen k = 15 (maximum mean silhouette, the stated criterion). Elbow of WSS curve: k = 7. Maximum silhouette = 0.129. 
+Interpretation guide: silhouette > 0.5 strong, 0.25-0.5 weak, < 0.25 no substantial structure (Kaufman & Rousseeuw). Observed 0.129. 
+Agreement k-means vs Ward at k=15: adjusted Rand index = 0.420 (1 = identical, 0 = chance). 
+k-means clusters: size and top TF-IDF terms: 
+  cluster 1 (n=69): global, meeting, reposted, digital, working, group, pertemuan, negara 
+  cluster 2 (n=98): indonesien, f<U+00FC>r, indonesische, <U+00F6>sterreich, botschaft, indonesischen, indonesiens, kultur 
+  cluster 3 (n=64): sob, pesona, bisa, nih, reposted, kamu, kalau, buat 
+  cluster 4 (n=10): diumumkannya, peyebaran, aturan, keimigrasian, sehubungan, virus, edaran, penanganan 
+  cluster 5 (n=248): indonesia, kbri, ptri, dubes, austria, damos, agusman, dumoli 
+  cluster 6 (n=25): konsuler, warung, layanan, paspor, dokumen, kbri, wni, persyaratan 
+  cluster 7 (n=140): indonesian, you, embassy, announcement, more, tourism, all, your 
+  cluster 8 (n=10): issued, adoption, referring, latest, note, regulation, situation, immigration 
+  cluster 9 (n=14): edaran, surat, satugan, tentang, masa, pandemi, perjalanan, penanganan 
+  cluster 10 (n=26): mengucapkan, selamat, ptri, raya, staff, besar, seluruh, kbri 
+  cluster 11 (n=165): infeksi, infografis, angka, tgl, tingkat, covid, slovenia, austria 
+  cluster 12 (n=13): concerning, number, letter, circular, during, protocol, task, corona 
+  cluster 13 (n=71): asean, summit, keketuaan, ktt, aseanpedia, tahu, ingin, baca 
+  cluster 14 (n=28): poco, tahunan, pidato, tari, museum, welt, pers, weltmuseum 
+  cluster 15 (n=15): idul, sholat, adha, fitri, wapena, kbri, allah, ptri 
+Cross-tab: k-means cluster x ICI label (v1.1): 
+       ICI
+cluster   A   B   C   D Sum
+    1    16  21   6  26  69
+    2    44   4   3  47  98
+    3    38   1   2  23  64
+    4     0   0   0  10  10
+    5    37   9   3 198 247
+    6     0   0   0  25  25
+    7    45   8  10  73 136
+    8     0   0   0  10  10
+    9     0   0   0  14  14
+    10    0   0   0  26  26
+    11    0   0   0 165 165
+    12    1   0   0  12  13
+    13    9   7   2  53  71
+    14    5   0   1  22  28
+    15    0   0   0  15  15
+    Sum 195  50  27 719 991
+Cramer's V between emergent cluster and each candidate organising variable (0 = none, 1 = perfect): 
+   repost  language    format      year ICI_label 
+    0.678     0.624     0.443     0.423     0.349 
+Robustness: same association at the elbow k = 7: 
+ language    format    repost      year ICI_label 
+    0.467     0.390     0.303     0.302     0.266 
+Note: the silhouette maximum lies at the edge of the pre-set range (k = 2..15) and rises only slowly, so no k is a natural partition. 
+Cramer's V values for variables with different numbers of categories are only roughly comparable. 
+Cross-tab: k-means cluster x language: 
+       language
+cluster  de  en  id mixed unknown
+     1    0   9  17    43       0
+     2   44   2   2    48       2
+     3    0   0  64     0       0
+     4    0   0  10     0       0
+     5    0   5 216     9      17
+     6    0   0  24     0       1
+     7    0 108   2    13      13
+     8    0  10   0     0       0
+     9    0   0  14     0       0
+     10   0   0  17     1       8
+     11   0   0 165     0       0
+     12   0  13   0     0       0
+     13   1  29  32     5       4
+     14   0   1  24     0       3
+     15   0   0  13     1       1
+
+=== STEP 5: allocation === 
+                                   setting dimension n_posts n_total share
+1                            v1.1 headline         A     195     992 19.7%
+2                            v1.1 headline         B      50     992  5.0%
+3                            v1.1 headline         C      27     992  2.7%
+4                            v1.1 headline         D     720     992 72.6%
+5                              v1.0 frozen         A     202     992 20.4%
+6                              v1.0 frozen         B      60     992  6.0%
+7                              v1.0 frozen         C      38     992  3.8%
+8                              v1.0 frozen         D     692     992 69.8%
+9                         v1.1 threshold=1         A     275     992 27.7%
+10                        v1.1 threshold=1         B      81     992  8.2%
+11                        v1.1 threshold=1         C      68     992  6.9%
+12                        v1.1 threshold=1         D     568     992 57.3%
+13                        v1.1 threshold=3         A     140     992 14.1%
+14                        v1.1 threshold=3         B      35     992  3.5%
+15                        v1.1 threshold=3         C      12     992  1.2%
+16                        v1.1 threshold=3         D     805     992 81.1%
+17                     v1.1 own posts only         A     180     947 19.0%
+18                     v1.1 own posts only         B      47     947  5.0%
+19                     v1.1 own posts only         C      27     947  2.9%
+20                     v1.1 own posts only         D     693     947 73.2%
+21                  v1.1 excluding reposts         A     147     883 16.6%
+22                  v1.1 excluding reposts         B      35     883  4.0%
+23                  v1.1 excluding reposts         C      18     883  2.0%
+24                  v1.1 excluding reposts         D     683     883 77.3%
+25 v1.1 excluding COVID infographic series         A     195     829 23.5%
+26 v1.1 excluding COVID infographic series         B      50     829  6.0%
+27 v1.1 excluding COVID infographic series         C      27     829  3.3%
+28 v1.1 excluding COVID infographic series         D     557     829 67.2%
+         ci95
+1  17.3-22.2%
+2    3.8-6.6%
+3    1.9-3.9%
+4  69.7-75.3%
+5  18.0-23.0%
+6    4.7-7.7%
+7    2.8-5.2%
+8  66.8-72.5%
+9  25.0-30.6%
+10  6.6-10.0%
+11   5.4-8.6%
+12 54.2-60.3%
+13 12.1-16.4%
+14   2.5-4.9%
+15   0.7-2.1%
+16 78.6-83.5%
+17 16.6-21.6%
+18   3.8-6.5%
+19   2.0-4.1%
+20 70.3-75.9%
+21 14.3-19.2%
+22   2.9-5.5%
+23   1.3-3.2%
+24 74.5-80.0%
+25 20.8-26.5%
+26   4.6-7.9%
+27   2.2-4.7%
+28 63.9-70.3%
+Within ICI-relevant posts only (A+B+C = 100%): 
+            A    B    C
+v1.0     67.3 20.0 12.7
+v1.1     71.7 18.4  9.9
+v1.1 t=1 64.9 19.1 16.0
+v1.1 t=3 74.9 18.7  6.4
+COVID infographic series: 163 posts (2021: 15, 2022: 148). 
+Share of each dimension's posts that are reposts from other accounts (v1.1): 
+  FALSE TRUE repost_pct
+A   147   48       24.6
+B    35   15       30.0
+C    18    9       33.3
+D   683   37        5.1
+A/B/C sub-attributes (v1.1); any cell under 10 is a count only, no share is read from it: 
+
+ A1  A2  A3  B1  B2  B3  C1  C2  C3 
+ 88 103   4   6  29  15   5   6  16 
+Most recent period (Jan 2025 - 01 Oct 2026, n = 117 posts): C count under each setting: v1.0 = 3, v1.1 = 0, threshold=1 = 3, threshold=3 = 0. 
+Posts per year by ICI dimension (v1.1; n in every cell): 
+      dimension
+year     A   B   C   D Sum
+  2022  89  27  16 376 508
+  2023  25   9   5 171 210
+  2024  41   4   6  74 125
+  2025  22   1   0  46  69
+  2026  13   9   0  26  48
+Row shares (%): 
+      dimension
+year      A    B    C    D
+  2022 17.5  5.3  3.1 74.0
+  2023 11.9  4.3  2.4 81.4
+  2024 32.8  3.2  4.8 59.2
+  2025 31.9  1.4  0.0 66.7
+  2026 27.1 18.8  0.0 54.2
+Cells with n < 10 are too small to read as a yearly share; see table above. 
+Year trend in share (logistic regression of 'post is in dimension k' on year; odds ratio per year, 95% CI): 
+  A: n=190 posts; OR/year = 1.27 (1.12-1.44); p = 0.000 
+  B: n=50 posts; OR/year = 1.17 (0.94-1.46); p = 0.167 
+  C: n=27 posts; OR/year = 0.79 (0.54-1.17); p = 0.240 
+  D: n=693 posts; OR/year = 0.81 (0.72-0.91); p = 0.000 
+Total posts per year: 2022=508, 2023=210, 2024=125, 2025=69, 2026=48 
+Note: shares are composition, not volume. A falling share can come from fewer posts of that type OR more posts of other types. 
+
+=== STEP 6: gap analysis === 
+No survey_responses.csv supplied: perception side left as a documented empty slot. 
+
+=== STEP 7: colour === 
+Image CDN unreachable from this machine, or URLs expired. Re-scrape, or run this script where instagram CDN hosts are reachable. 
+Colour analysis NOT run: 0 images available (need >= 30). Documented empty step. 
+
+=== STEP 3 (continued): agreement check === 
+Validation: no hand-coded file in data/ yet -> all automated labels are PROVISIONAL. 
+
+Done. 1000 posts written to output/labelled_posts.csv; charts in charts/. 

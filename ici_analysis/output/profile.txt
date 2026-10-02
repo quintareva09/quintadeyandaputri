@@ -1,0 +1,82 @@
+== posts_raw.csv ==
+Rows: 1000 | Columns: 1688 (most are flattened JSON arrays: childPosts/i/..., hashtags/i, taggedUsers/i/...)
+Unique post ids: 1000
+Date range (UTC): 2021-12-14 20:19:51 to 2026-10-01 16:20:34
+Posts per calendar year:
+
+2021 2022 2023 2024 2025 2026 
+  33  514  210  126   69   48 
+Media type:
+
+  Image Sidecar   Video 
+    330     332     338 
+productType:
+
+carousel_container              clips               feed               igtv 
+               332                258                399                 11 
+Rows whose ownerUsername is inainvienna: 955; other owners: 45
+Share missing/blank for key fields:
+                          id                    shortCode 
+                       0.000                        0.000 
+                   timestamp                      caption 
+                       0.000                        0.000 
+                        type                  productType 
+                       0.000                        0.000 
+               ownerUsername                   displayUrl 
+                       0.000                        0.000 
+                    images/0                     videoUrl 
+                       0.668                        0.662 
+                         alt                   likesCount 
+                       0.000                        0.000 
+               commentsCount               videoViewCount 
+                       0.000                        0.662 
+              videoPlayCount                 locationName 
+                       0.743                        0.281 
+                  hashtags/0                   mentions/0 
+                       0.104                        0.476 
+coauthorProducers/0/username 
+                       0.937 
+
+== reels_raw.csv ==
+Rows: 21 | Columns: 1152 (most are flattened JSON arrays: childPosts/i/..., hashtags/i, taggedUsers/i/...)
+Unique post ids: 21
+Date range (UTC): 2022-09-14 09:06:28 to 2026-07-17 21:07:00
+Posts per calendar year:
+
+2022 2023 2025 2026 
+  12    7    1    1 
+Media type:
+
+  Image Sidecar   Video 
+      4       8       9 
+productType:
+
+carousel_container              clips               feed 
+                 8                  9                  4 
+Rows whose ownerUsername is inainvienna: 0; other owners: 21
+Share missing/blank for key fields:
+                          id                    shortCode 
+                       0.000                        0.000 
+                   timestamp                      caption 
+                       0.000                        0.000 
+                        type                  productType 
+                       0.000                        0.000 
+               ownerUsername                   displayUrl 
+                       0.000                        0.000 
+                    images/0                     videoUrl 
+                       0.619                        0.571 
+                  likesCount                commentsCount 
+                       0.000                        0.000 
+              videoPlayCount                 locationName 
+                       0.571                        0.286 
+                  hashtags/0                   mentions/0 
+                       0.238                        0.762 
+coauthorProducers/0/username 
+                       0.905 
+
+Posts in both files (same id): 2
+
+== Fields that do NOT exist in either file ==
+  reach, impressions, saves, shares, follower count at time of post, audience location/demographics,
+  any image file (only CDN URLs, which expire), any field saying who wrote a post or why.
+

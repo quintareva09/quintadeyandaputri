@@ -181,7 +181,29 @@ The automated coder is a **transparent dictionary classifier**, not a model. A r
 
 ---
 
+## Appendix B — v1.1 changes (written AFTER inspecting v1.0 output)
+
+v1.0 was run unchanged on all 1,000 posts. Reading the terms that drove each label showed **mechanical errors**: dictionary entries colliding with ordinary words. It also showed that the automated procedure in Section 6 omitted Rule 7. v1.1 corrects only those defects.
+
+**What did not change:** the rules in Sections 3–4, the dimension definitions and the substance threshold (≥ 2 matches) are all as in v1.0. Results are reported under both versions (`analysis.R`, step 2).
+
+| # | Change | Observed defect in v1.0 | Effect |
+|---|---|---|---|
+| B.1 | Terms of 4 characters or fewer, and all-capital acronyms, match only as **whole words** (an optional plural *s* is allowed) | Prefix matching made `ADA` (Austrian Development Agency) match the common Indonesian word *ada* ("there is"); this was the single most frequent B term. In the same way, `HAM` matched *hampir* ("almost"), `tari` matched *tarif*, `aman` matched *amanat*, and `art` matched *article* | Removes false B, C and A matches |
+| B.2 | All-capital acronyms of 2–5 letters (ADA, HAM, MK, DPR, KPK, PDB, GDP, IKN, OSS, WNI, IAEA, ...) match **case-sensitively** | The same collisions as B.1, in lower case | Removes false matches |
+| B.3 | `PTRI` is removed from the D4 dictionary | `PTRI` is part of the mission's own name ("KBRI/PTRI Wina"), which appears in most captions, so it says nothing about multilateral content | D sub-codes only, plus the Rule 7 proxy (B.4) |
+| B.4 | **Rule 7 proxy added to Section 6:** when a post matches any D4 term, its C1 (safe) matches are not counted | In IAEA / CTBTO posts, words like *safety*, *security*, *keamanan* and *keselamatan* describe the organisation's mandate (nuclear safety and security), not Indonesia's domestic safety. v1.0 therefore coded these posts C, contrary to Rule 7 | Moves multilateral posts from C to D4 unless they have other C content |
+
+Machine-readable removals (parsed by `analysis.R`):
+
+- REMOVE D4: PTRI
+
+**Not changed, but tested as a sensitivity check.** The ≥ 2-match substance threshold puts many short captions into D6, including some a human would code A, such as a one-line tourism caption. This is a disagreement with human judgement, not a mechanical error, so the threshold stays fixed. Results are re-run at threshold 1 (lenient) and threshold 3 (strict) to show how much the conclusions depend on it.
+
+---
+
 ## Change log
 | Version | Date | Change | Reason |
 |---|---|---|---|
-| 1.0 | 2026-10-02 | Initial frozen version, written before any data was seen | — |
+| 1.0 | 2026-10-02 | Initial frozen version, written before any data was seen (commit 328485a) | — |
+| 1.1 | 2026-10-02 | Appendix B: whole-word and case-sensitive matching for short terms and acronyms; `PTRI` removed from D4; Rule 7 proxy implemented | Mechanical word collisions and an omitted rule, found when inspecting v1.0 output. Thresholds and definitions unchanged; v1.0 results still reported |

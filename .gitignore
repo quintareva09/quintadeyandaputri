@@ -1,0 +1,6 @@
+# Raw scrape contains third-party commenter data; keep it local
+ici_analysis/data/posts_raw.csv
+ici_analysis/data/reels_raw.csv
+ici_analysis/data/images/
+ici_analysis/data/survey_responses.csv
+ici_analysis/data/*hand_coded*.csv
