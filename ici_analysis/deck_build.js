@@ -160,6 +160,32 @@ s.addTable([
 s.addText("Kolom “kemungkinan pengembangan” adalah usulan untuk didiskusikan, bukan hasil kajian.",
   { ...NOTE, fontSize: 16, x: 0.6, y: 6.05, w: 12.1, h: 0.6 });
 
+// 7b. Post images from the account
+s = pres.addSlide({ masterName: "CONTENT" });
+s.addText("Contoh unggahan KBRI untuk setiap kategori", { placeholder: "title" });
+const EX = [
+  { cat: "A. Budaya & Pariwisata", items: [
+    ["3366970197514874148", "Jatiluwih, Bali: warisan budaya dunia (2024)"],
+    ["3722323211842320460", "Kelas Bahasa Indonesia di Universität Wien, dalam bahasa Jerman (2025)"] ] },
+  { cat: "B. Ekonomi & Bisnis", items: [
+    ["3202613031442937564", "Indonesia–Europe Business Forum (2023)"],
+    ["3917855808738391129", "Indonesia Coffee & Culture (2026)"] ] },
+  { cat: "C. Tata Kelola & Keamanan", items: [
+    ["3139557286447458314", "Daftar negara penerima Visa on Arrival (2023)"],
+    ["3275759198489651045", "Golden Visa: izin tinggal hingga 10 tahun (2024)"] ] },
+];
+EX.forEach((g, ci) => {
+  const x = 0.6 + ci * 4.1;
+  s.addText(g.cat, { x, y: 1.5, w: 3.9, h: 0.4, fontSize: 18, bold: true, color: C.text1, margin: 0, isTextBox: true });
+  g.items.forEach(([id, cap], ri) => {
+    const y = 2.0 + ri * 2.2;
+    s.addImage({ path: `${__dirname}/deck_images/${id}.jpg`, x, y, w: 2.0, h: 2.0, altText: cap,
+      line: { color: "D9D9D9", width: 0.75 } });
+    s.addText(cap, { x: x + 2.15, y, w: 1.75, h: 2.0, fontSize: 14, color: C.text1, valign: "middle", margin: 0, isTextBox: true });
+  });
+});
+s.addText("Sumber: akun Instagram @inainvienna.", { ...NOTE, x: 0.6, y: 6.4, w: 12.1, h: 0.35 });
+
 // 8. Indicators
 s = pres.addSlide({ masterName: "CONTENT" });
 s.addText("Ukuran keberhasilan: bukan hanya jumlah suka", { placeholder: "title" });
@@ -207,7 +233,7 @@ s.addText(bullets([
 ]), { ...BODY, fontSize: 18, paraSpaceAfter: 10, x: 0.6, y: 1.7, w: 12.1, h: 4.9 });
 
 (async () => {
-  await pres.writeFile({ fileName: "/tmp/dk3/KBRI_Wina_Penataan_Konten_Instagram.pptx" });
-  await applyTheme("/tmp/dk3/KBRI_Wina_Penataan_Konten_Instagram.pptx", THEME);
+  await pres.writeFile({ fileName: `${__dirname}/KBRI_Wina_Penataan_Konten_Instagram.pptx` });
+  await applyTheme(`${__dirname}/KBRI_Wina_Penataan_Konten_Instagram.pptx`, THEME);
   console.log("done");
 })();
