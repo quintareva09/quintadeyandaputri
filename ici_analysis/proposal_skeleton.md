@@ -33,13 +33,10 @@
 - 3.2 Service-channel language: Indonesian. *(FR: consistent with the citizen audience)* [judgement call, not evidence]
 
 ## 4. Visual rules
-- 4.1 **[Empty until the colour analysis runs.]** Whether a visual system exists now is **not established**: the colour strip, dispersion and palette clusters were not produced (`findings.md`). This section must not be filled before then.
-- 4.2 Once it runs, pick one branch:
-  - (a) If a recurrent palette cluster exists → codify it.
-  - (b) If not → specify one.
-  
-  The palette, typography and templates themselves: [judgement call, not evidence]
+- 4.1 Starting point: the grid shows no recurring accent colour. Neutral clusters cover 71% of posts, no coloured cluster exceeds 9%, and dispersion was 34–42 ΔE in every year. *(FR: visual system; dominant colour of 999 cover images)* This supports **specifying** a palette rather than codifying an existing one. Branch (b) of the earlier plan.
+- 4.2 The palette, typography and templates themselves: [judgement call, not evidence]. The data only says that no colour specification is currently visible; it says nothing about which colours to choose.
 - 4.3 One visual marker per pillar, so the allocation is visible on the grid. [judgement call, not evidence]
+- 4.4 Non-colour elements (type, logo placement, photo treatment) were not measured. [judgement call, not evidence]
 
 ## 5. Measurement to replace "engagement and vibes"
 - 5.1 **Allocation KPI (measurable now):** monthly share of posts per ICI pillar, coded with `codebook.md`. Re-run `analysis.R` on a fresh scrape. *(F1–F3; this is the instrument used here)*
@@ -47,7 +44,7 @@
 - 5.3 **Perception:** ICI items asked of a sample that is **not** recruited at Indonesian events. Report n and the method of recruitment every time. Any comparison with content is descriptive unless the design supports more. *(FR / "cannot tell us": the event sample is self-selected and favourable to A)* Sample design: [judgement call, not evidence]
 - 5.4 **Reach of the intended audience:** share of followers and reach located in Austria, from Instagram Insights. *(The scrape has no audience data)*
 - 5.5 **Engagement:** recorded as context, never used as the success criterion or to judge content types. *(Observational data are confounded; see "cannot tell us")*
-- 5.6 **Visual consistency:** colour dispersion (ΔE) per quarter, tracked against the account's own baseline. No external benchmark exists. *(Step 7, once run)*
+- 5.6 **Visual consistency:** colour dispersion per quarter, plus the share of posts falling in the specified palette. Tracked against the account's own baseline (mean ΔE 38.4; neutrals 71%). No external benchmark exists. *(FR: visual system)*
 
 ## 6. Cadence
 - 6.1 Yearly volume has ranged from 508 to 69 posts. There is no stated cadence target. *(FR: yearly n)*
@@ -60,6 +57,5 @@
 
 ## Open items before this skeleton becomes a proposal
 - [ ] Hand-code the 30 random + 20 B/C validation posts; report kappa in `findings.md`.
-- [ ] Run the colour analysis (image access needed before about 6 Oct 2026, 21:00 UTC, or re-scrape).
 - [ ] Get Instagram Insights audience geography.
 - [ ] Add the in-person ICI responses, labelled indicative only.

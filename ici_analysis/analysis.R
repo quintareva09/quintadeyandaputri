@@ -21,7 +21,7 @@
 # =============================================================================
 
 # ---- 0. Setup ---------------------------------------------------------------
-pkgs <- c("ggplot2", "cluster", "Matrix", "jpeg", "png", "stringi")
+pkgs <- c("ggplot2", "cluster", "Matrix", "jpeg", "png", "webp", "stringi")
 missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing)) install.packages(missing, repos = "https://cloud.r-project.org")
 suppressPackageStartupMessages({
@@ -83,7 +83,8 @@ wilson <- function(x, n, z = 1.96) {  # Wilson 95% interval for a proportion
 
 # ---- 1. Profile the data before analysing it --------------------------------
 read_scrape <- function(f) {
-  d <- read.csv(f, check.names = FALSE, stringsAsFactors = FALSE, encoding = "UTF-8")
+  # Everything is read as text: Instagram ids are 19-digit integers that lose precision as numbers
+  d <- read.csv(f, check.names = FALSE, stringsAsFactors = FALSE, encoding = "UTF-8", colClasses = "character")
   # The scraper writes a byte-order mark that would otherwise corrupt the first header
   names(d) <- stri_replace_first_regex(enc2utf8(names(d)), "^\\x{FEFF}", "")
   d
@@ -580,20 +581,30 @@ save_chart(p_gap, "content_vs_perception.png", w = 9, h = 4.8)
 say("\n=== STEP 7: colour ===")
 img_dir <- file.path(DATA, "images"); dir.create(img_dir, showWarnings = FALSE)
 img_path <- file.path(img_dir, paste0(d$id, ".jpg"))
-need <- which(!file.exists(img_path) & !blank(d$displayUrl))
+fetch <- function(i, tries = 3) {                      # retry transient CDN failures; never keep an empty file
+  for (t in seq_len(tries)) {
+    ok <- isTRUE(tryCatch(download.file(d$displayUrl[i], img_path[i], mode = "wb", quiet = TRUE) == 0,
+                          error = function(e) FALSE, warning = function(w) FALSE))
+    if (ok && file.exists(img_path[i]) && file.size(img_path[i]) > 0) return(TRUE)
+    if (file.exists(img_path[i])) file.remove(img_path[i])
+  }
+  FALSE
+}
+need <- which((!file.exists(img_path) | file.size(img_path) %in% 0) & !blank(d$displayUrl))
 if (length(need)) {
-  probe <- vapply(head(need, 3), function(i)
-    isTRUE(tryCatch(download.file(d$displayUrl[i], img_path[i], mode = "wb", quiet = TRUE) == 0, error = function(e) FALSE,
-                    warning = function(w) FALSE)), TRUE)
-  if (any(probe)) {
-    for (i in need[-(1:3)]) tryCatch(download.file(d$displayUrl[i], img_path[i], mode = "wb", quiet = TRUE),
-                                     error = function(e) NULL, warning = function(w) NULL)
-  } else say("Image CDN unreachable from this machine, or URLs expired. Re-scrape, or run this script where instagram CDN hosts are reachable.")
+  probe <- vapply(head(need, 3), fetch, TRUE)
+  if (any(probe)) for (i in need[-(1:3)]) fetch(i)
+  n_fail <- sum(!file.exists(img_path[need]))
+  if (n_fail == length(need) && n_fail == nrow(d)) say("Image CDN unreachable from this machine, or URLs expired. Re-scrape, or run this script where instagram CDN hosts are reachable.")
+  else if (n_fail > 0) say(sprintf("%d image(s) could not be downloaded after retries.", n_fail))
 }
 read_img <- function(f) {
   sig <- readBin(f, "raw", 4)
   if (length(sig) < 4) return(NULL)
-  tryCatch(if (sig[1] == as.raw(0x89)) png::readPNG(f) else jpeg::readJPEG(f), error = function(e) NULL)
+  # The CDN serves JPEG, PNG or WebP under the same .jpg name, so decode by file signature
+  tryCatch(if (sig[1] == as.raw(0x89)) png::readPNG(f)
+           else if (identical(sig, charToRaw("RIFF"))) webp::read_webp(f)
+           else jpeg::readJPEG(f), error = function(e) NULL)
 }
 dominant <- function(f, k = 5) {
   im <- read_img(f); if (is.null(im) || length(dim(im)) < 3) return(NULL)
@@ -618,6 +629,7 @@ if (length(have_img) >= 30) {
   de_cent <- sqrt(rowSums(sweep(LAB, 2, colMeans(LAB))^2))
   pw <- as.vector(dist(LAB))
   say(sprintf("Images analysed: %d of %d posts.", nrow(LAB), nrow(d)))
+  say("Images analysed per year: ", paste(names(table(d$year[idx])), table(d$year[idx]), sep = "=", collapse = ", "))
   say(sprintf("Dispersion: mean Delta E to account centroid = %.1f; median pairwise Delta E = %.1f.", mean(de_cent), median(pw)))
   by_year <- tapply(de_cent, d$year[idx], function(x) sprintf("%.1f (n=%d)", mean(x), length(x)))
   say("Mean Delta E to centroid by year: ", paste(names(by_year), by_year, sep = ": ", collapse = "; "))
@@ -629,17 +641,24 @@ if (length(have_img) >= 30) {
   pal_hex <- rgb(pmin(pmax(grDevices::convertColor(pbest$centers, from = "Lab", to = "sRGB"), 0), 1))
   say(sprintf("Account palette: k = %d (max silhouette %.2f). Cluster centres / share of posts: %s", pk[which.max(psil)], max(psil),
               paste(sprintf("%s %.0f%%", pal_hex, 100 * pbest$size / sum(pbest$size)), collapse = ", ")))
+  # Neutral = palette centre with CIELAB chroma < 10 (near-white, grey, near-black)
+  chroma <- sqrt(pbest$centers[, 2]^2 + pbest$centers[, 3]^2); shr <- pbest$size / sum(pbest$size)
+  neutral_share <- sum(shr[chroma < 10]); max_chromatic <- if (any(chroma >= 10)) max(shr[chroma >= 10]) else 0
+  say(sprintf("Neutral palette clusters (chroma < 10) cover %.1f%% of posts; the largest coloured cluster covers %.1f%%.",
+              100 * neutral_share, 100 * max_chromatic))
   say("No benchmark exists for these dispersion figures (no comparator account or brand specification was supplied); they are reported for repeat measurement, not judged against a norm.")
   strip <- data.frame(ts = d$ts[idx], hex = hex)[order(d$ts[idx]), ]
   strip$pos <- seq_len(nrow(strip))
   yr_breaks <- vapply(unique(format(strip$ts, "%Y")), function(y) min(strip$pos[format(strip$ts, "%Y") == y]), 0)
+  yr_breaks <- yr_breaks[c(diff(yr_breaks) >= 0.04 * nrow(strip), TRUE)]   # drop labels too close to the next (e.g. 2-week Dec 2021)
   p_strip <- ggplot(strip, aes(pos, 1, fill = hex)) + geom_tile(width = 1, height = 1) +
     scale_fill_identity() +
     scale_x_continuous(breaks = yr_breaks, labels = names(yr_breaks), expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0)) +
-    labs(title = sprintf("Dominant colour of every post, in date order (n = %d)", nrow(strip)),
-         subtitle = sprintf("Mean Delta E from account centroid %.1f; largest palette cluster covers %.0f%% of posts.",
-                            mean(de_cent), 100 * max(pbest$size) / sum(pbest$size)),
+    labs(title = sprintf("No recurring accent colour: neutrals cover %.0f%% of posts, no coloured cluster exceeds %.0f%%",
+                         100 * neutral_share, 100 * max_chromatic),
+         subtitle = sprintf("Dominant colour of each post in date order (n = %d). Mean Delta E from account centroid %.1f; %d palette clusters.",
+                            nrow(strip), mean(de_cent), nrow(pbest$centers)),
          x = NULL, y = NULL, caption = "One column per post (largest k-means colour cluster in CIELAB). Photographs carry the colours of their scenes, so this measures the grid as published, not a design intent.") +
     theme_ici() + theme(axis.text.y = element_blank(), panel.grid.major.y = element_blank())
   save_chart(p_strip, "colour_strip.png", w = 10, h = 2.6)

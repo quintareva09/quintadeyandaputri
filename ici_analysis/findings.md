@@ -45,6 +45,18 @@ Several of these are legitimate mandates of the mission. This finding concerns h
 
   In short, the account's content is organised around **source and language, not around perception dimensions**. V values across variables with different numbers of categories are only roughly comparable, and part of the language separation is built into bag-of-words methods. → `charts/k_selection.png`
 
+- **Visual system (step 7).** Each post's dominant colour was measured from its cover image (n = 999; 1 image could not be downloaded). The dominant colours show **no recurring accent colour**:
+  - Near-white, grey and near-black clusters cover 71% of posts.
+  - Of 7 palette clusters (chosen by silhouette, 0.62), no coloured cluster covers more than 9%. The red cluster (#CA2D27) covers 3%.
+  - Dispersion (mean ΔE from the account centroid) is 38.4 overall and 33.7–41.6 in every year. No year shows a tighter period that would suggest a specification was in force.
+
+  In system terms, the grid shows **no governing colour specification**. Limits:
+  - Dominant colour in photographs reflects the scene photographed, not a design decision.
+  - Only the cover image of a carousel or video is measured.
+  - There is no comparator account or brand norm, so ΔE values are a baseline for repeat measurement, not "high" or "low".
+
+  → `charts/colour_strip.png`
+
 ## Method in brief
 
 **Codebook.** `codebook.md` v1.0 was committed (328485a) before any data was seen. v1.1 fixes only mechanical word collisions in the keyword lists and adds an omitted rule (Rule 7, which sends multilateral posts to D4). Both are logged in Appendix B. v1.0 and v1.1 agree on 969 of 1,000 labels.
@@ -76,5 +88,5 @@ Several of these are legitimate mandates of the mission. This finding concerns h
 - **What drives engagement.** Likes and comments were not used. In observational data, engagement differences between content types are confounded with date, format, reposting, language and follower growth.
 - **Who sees the account.** The scrape has no reach, impressions, saves or follower geography, so whether Austrians are reached at all is unknown. Instagram Insights from the account itself would be needed.
 - **History before Dec 2021.** The scrape stopped at exactly 1,000 rows, which matches a scraper limit. Stories, deleted posts and highlights are not included.
-- **Visual content and the visual system.** Classification reads captions only. The colour analysis (the strongest test of an existing visual system) **has not been run**: the image URLs are blocked from the analysis environment and expire around **6 Oct 2026, 21:00 UTC**. `analysis.R` downloads and analyses them automatically when run on a machine that can reach Instagram's image servers.
+- **Visual content beyond colour.** Classification reads captions only, so a post whose message is carried by the image is coded from its caption. The colour analysis measures dominant colour only: it cannot detect typography, templates, logo use or photo style, which a visual specification would also govern.
 - **Why the allocation looks like this.** The data records what was published, not the instructions, resources or approvals behind it.

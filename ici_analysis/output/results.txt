@@ -218,8 +218,14 @@ Note: shares are composition, not volume. A falling share can come from fewer po
 No survey_responses.csv supplied: perception side left as a documented empty slot. 
 
 === STEP 7: colour === 
-Image CDN unreachable from this machine, or URLs expired. Re-scrape, or run this script where instagram CDN hosts are reachable. 
-Colour analysis NOT run: 0 images available (need >= 30). Documented empty step. 
+1 image(s) could not be downloaded after retries. 
+Images analysed: 999 of 1000 posts. 
+Images analysed per year: 2021=33, 2022=513, 2023=210, 2024=126, 2025=69, 2026=48 
+Dispersion: mean Delta E to account centroid = 38.4; median pairwise Delta E = 50.1. 
+Mean Delta E to centroid by year: 2021: 38.3 (n=33); 2022: 38.7 (n=513); 2023: 38.3 (n=210); 2024: 41.6 (n=126); 2025: 33.7 (n=69); 2026: 35.4 (n=48) 
+Account palette: k = 7 (max silhouette 0.62). Cluster centres / share of posts: #D2C760 3%, #EBEFEE 53%, #CA2D27 3%, #422962 7%, #80745D 9%, #1F1A1B 18%, #6B8EA8 8% 
+Neutral palette clusters (chroma < 10) cover 70.7% of posts; the largest coloured cluster covers 8.9%. 
+No benchmark exists for these dispersion figures (no comparator account or brand specification was supplied); they are reported for repeat measurement, not judged against a norm. 
 
 === STEP 3 (continued): agreement check === 
 Validation: no hand-coded file in data/ yet -> all automated labels are PROVISIONAL. 
