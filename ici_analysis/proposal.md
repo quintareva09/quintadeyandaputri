@@ -1,4 +1,4 @@
-# Proposal: an ICI-aligned content system for @inainvienna
+# Making limited publishing count: an ICI-aligned content system for KBRI Wina
 
 **DRAFT for discussion. Fungsi Pensosbud, KBRI/PTRI Wina.**
 
@@ -12,27 +12,49 @@
 
 ---
 
-## 1. Summary
+## 1. The challenge
 
-- The Ministry already measures Indonesia's image abroad with the **Indonesia Image Index (ICI)**, on three dimensions:
-  - **A** Culture & Tourism
-  - **B** Economy & Business
-  - **C** Governance & Safety
+KBRI produces content every week: visits, ceremonies, cultural events, consular information, bilateral meetings, community events. All of it is legitimate, and all of it follows mission activity.
 
-  The DCM has noted that Indonesia's image is strong on the first and weak on the third.
-- The account's output is currently **not allocated against these dimensions**:
-  - About **three quarters of posts (720 of 992)** serve none of the three.
+The operating environment has changed:
+- **Fewer slots.** With a small communications team and fewer publishing opportunities than in previous years, each post now carries more weight.
+- **A strategic question from leadership.** The DCM has asked how to make Austrians see Indonesia as more than culture and tourism.
+
+What the current, informal model does not answer is this: **over a month or a year, what image of Indonesia are these posts building, taken together?** No system decides how the limited publishing opportunities contribute to Indonesia's image in Austria.
+
+> **The challenge:** how can KBRI turn a limited number of social-media posts into a deliberate, measurable effort to shape Indonesia's image, across the dimensions the Ministry already measures?
+
+Put simply: the question is not *"what should we post?"* It is *"with limited opportunities to post, what do we want Austrians to understand about Indonesia over time?"*
+
+This does not say KBRI has been communicating wrongly. KBRI already has formats for every dimension of Indonesia's image. What is missing is a rule for how much of each: an informal model was enough when there were more posts and no explicit image priority, and it is no longer enough.
+
+**Scope.** Instagram (@inainvienna) is where this was measured. The same allocation logic applies to every KBRI channel.
+
+### In brief
+- **What the account shows today** (provisional, §3). The allocation is not governed by any image priority:
+  - About **three quarters of posts (720 of 992)** serve none of the ICI's three dimensions. These are mostly service, protocol and ceremonial content.
   - Of the posts that do, about **72% are Culture & Tourism**.
   - **Governance & Safety has had no posts since January 2025** (0 of 117).
-- **Proposal:** separate the account's two jobs into an **image stream** organised by the three ICI dimensions and a **service stream** for citizens and protocol. Give the image stream a target allocation, one caption standard and one visual specification.
-- **Measure success by allocation and audience reach, not by likes.**
-- **First month:** validate the coding, pull the audience data and agree the targets.
+- **Proposal** (§4): separate the account's two jobs:
+  - an **image stream** allocated across the three ICI dimensions, with one caption standard, one visual specification and one language rule;
+  - a **service stream** for citizens and protocol, which protects that mandated work.
+- **Measurement** (§5): track allocation and audience reach, not likes.
+- **First month** (§6): validate the coding, pull audience data from Instagram Insights, and agree the targets.
 
-## 2. Why the ICI
+## 2. Why the ICI, and what it gives KBRI
 
-- **It is the Ministry's own instrument.** Aligning to it needs no new framework and can be read in the Ministry's terms.
-- **It answers the DCM's question directly.** "What would make Austrians interested?" becomes "which of the three dimensions are we giving Austrians material on?"
-- **It gives a shared vocabulary.** Every post can be tagged A, B, C or service before publication, so allocation becomes something planned rather than something observed afterwards.
+The Ministry already measures Indonesia's image abroad with the **Indonesia Image Index (ICI)**, on three dimensions:
+- **A** Culture & Tourism
+- **B** Economy & Business
+- **C** Governance & Safety
+
+Aligning content planning to it gives KBRI five things:
+
+- **Communications becomes an allocation problem that can be managed.** With fewer posts, each slot is a larger share of the mission's external communication, so choosing what gets published matters more.
+- **The DCM's concern becomes operational.** Instead of "we should show more economy and governance", KBRI can track how much attention goes to each of A, B, C and service content, month by month.
+- **Pensosbud gains a management KPI.** The unit can report not only output and engagement but which image dimensions were communicated. Once Instagram Insights is in place (§6), it can also report to which audience.
+- **The Ministry's instrument becomes usable at mission level.** No new framework is invented, and results can be read in the Ministry's own terms.
+- **The planning logic survives staff rotation.** Priorities are written down in a codebook and a target allocation rather than held in individual memory.
 
 ## 3. Where the account stands now
 
@@ -103,7 +125,7 @@ All figures below are provisional and stated as properties of the system, not of
 - **Not covered by the evidence.** Typography, logo placement and photo style were not measured, so these choices rest on design judgement only.
 
 ### 4.7 Cadence
-- **There is no current cadence target.** Yearly volume has ranged from 508 posts (2022) to 69 (2025). *(Basis: posts-per-year counts)*
+- **There is no current cadence target.** Publishing volume has varied widely: about 360 posts in 2022 (excluding the daily COVID series), 69 in 2025. *(Basis: posts-per-year counts)*
 - **Proposed rhythm:** a fixed weekly rhythm, for example 2–3 image-stream posts per week rotating A / B / C, with service content as needed. **[judgement call]** The data says nothing about the best frequency.
 
 ## 5. How success is measured
