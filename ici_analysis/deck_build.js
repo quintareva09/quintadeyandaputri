@@ -60,7 +60,7 @@ s.addText("Penataan Konten Instagram KBRI Wina", { placeholder: "title" });
 s.addText("Usulan berdasarkan Indonesia Image Index (ICI)", { placeholder: "body" });
 s.addText([
   { text: "Bahan diskusi  ·  Fungsi Pensosbud, KBRI/PTRI Wina", options: { breakLine: true } },
-  { text: "Disusun oleh: [Nama], Magang Fungsi Pensosbud", options: { breakLine: true } },
+  { text: "Disusun oleh: Quinta Deyandaputri, Magang Fungsi Pensosbud", options: { breakLine: true } },
   { text: "Oktober 2026" },
 ], { placeholder: "meta" });
 
